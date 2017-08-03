@@ -1,6 +1,8 @@
 #include <iostream>   //头文件
 #include <string>//支持string
 #include <cstring>
+#include <array>
+#include <vector>
 
 using namespace std;
 
@@ -10,6 +12,12 @@ void testStruct();
 void testUnion();
 
 void testPoint();
+
+void testArrayList();
+
+void testPointCharArray();
+
+void testArrayVector();
 
 void testArray() {
     int array[3] = {20, 30, 40};
@@ -74,7 +82,10 @@ int main() {
 //    stringTest();
 //    testStruct();
 //    testUnion();
-    testPoint();
+//    testPoint();
+    testArrayList();
+    testPointCharArray();
+    testArrayVector();
     return 0;
 }
 
@@ -102,7 +113,10 @@ union HH {
 
 void testStruct() {
     Person p = {"guo", 12};
-    cout << "output person name : " << p.name << endl;
+    Person *test = new Person;
+    test->name = "guo";//访问结构成员的方式
+    (*test).age = 32;
+    cout << "output person name : " << test->name << endl;
 }
 
 void testUnion() {
@@ -127,4 +141,46 @@ void testPoint() {
     int *p = &data;
     cout << "use new to assign a space : " << p_point << " and value is " << (*p_point) << endl;
     cout << " address of p " << p << " and value is " << (*p) << endl;
+}
+/**
+ * 访问指针数组的元素可以直接使用数组名加位置
+ */
+void testArrayList() {
+    int staticArray[10];//声明一个静态数组，它的长度是在编译是分配的
+    int size = 10;
+    int *arrayList = new int[size];//创建一个动态数组，它的值可以在运行时设置
+    for (int i = 0; i < 10; ++i) {
+        arrayList[i] = i;
+    }
+    //获取数组中的值
+    cout << "arrayList[3] : " << arrayList[3] << " 数组名表示数组第一个位置的地址 ： " << arrayList << endl;
+    //访问数组的等价操作，表示移动数组的地址：增加数组当前表示的类型所占用的内存的n倍。比如double占用8个字节，那么+3代表向右移动3*8个字节。
+    cout << "arrayList[3] 等价于 *(arrayList + 3） : " << *(arrayList + 3) << endl;
+    //delete要和new配套使用
+    delete[] arrayList;//删除数组用delete []
+    cout << "reuse arrayList memory : " << arrayList[3] << endl;
+    //??
+}
+
+//数组的名字将解释为第一个元素的地址,即t的地址，输出数组名首先会输出第一个元素，然后输出后面的字符，直到遇到空字符 \0，cout也是根据地址找到对应的字符串
+void testPointCharArray() {
+    char haha[] = "t\0est";
+    cout << "char array name : " << haha << " char position " << &haha << endl;
+    char *copyChar = new char[strlen(haha) + 1];
+    strcpy(copyChar, haha);
+    cout << "copychar use strcpy :" << copyChar << endl;
+}
+
+/**
+ * c++ 提供了动态数组的实现
+ * array vector 和java 一样一个线程安全 一个不安全
+ */
+void testArrayVector() {
+    vector<int> vector1(10);
+    array<int, 10> array1;
+    vector1[0] = 0;
+    array1[0] = 0;
+    vector1.at(1) = 1;
+    array1.at(1) = 1;
+    cout << "array vector assign param : " << vector1[1] << endl;
 }
