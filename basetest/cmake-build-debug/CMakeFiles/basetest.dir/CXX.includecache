@@ -13,4 +13,8 @@ string
 -
 cstring
 -
+array
+-
+vector
+-
 

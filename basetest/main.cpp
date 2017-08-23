@@ -6,6 +6,9 @@
 
 using namespace std;
 
+const int num = 4;
+array<string, num> season = {"spring", "summer", "Fall", "Winter"};
+
 int testFor(int num);//定义库函数
 void testStruct();
 
@@ -18,6 +21,10 @@ void testArrayList();
 void testPointCharArray();
 
 void testArrayVector();
+
+void testPointArray(int *arrPoint, const int arrConst[]);
+
+void testStringArray(array<string, 4> *seasons);
 
 void testArray() {
     int array[3] = {20, 30, 40};
@@ -63,6 +70,8 @@ void stringTest() {
 
 
 const int ZERO = 0;//定义常量
+int *arr = new int[6]{1, 2, 3, 4, 5, 6};
+const int *arrConst = new int[6]{1, 2, 3, 4, 5, 6};
 
 int main() {
     using namespace std;
@@ -83,9 +92,11 @@ int main() {
 //    testStruct();
 //    testUnion();
 //    testPoint();
-    testArrayList();
-    testPointCharArray();
-    testArrayVector();
+//    testArrayList();
+//    testPointCharArray();
+//    testArrayVector();
+//    testPointArray(arr, arrConst);
+    testStringArray(&season);
     return 0;
 }
 
@@ -142,6 +153,7 @@ void testPoint() {
     cout << "use new to assign a space : " << p_point << " and value is " << (*p_point) << endl;
     cout << " address of p " << p << " and value is " << (*p) << endl;
 }
+
 /**
  * 访问指针数组的元素可以直接使用数组名加位置
  */
@@ -183,4 +195,30 @@ void testArrayVector() {
     vector1.at(1) = 1;
     array1.at(1) = 1;
     cout << "array vector assign param : " << vector1[1] << endl;
+}
+
+/**
+ *
+ * @param arrPoint 当且当数组作为参数的时候 数组名代表整个数组，否则代表第一个元素的地址
+ * @param arrConst const修饰数组 代表数组的值不可以修改
+ */
+void testPointArray(int *arrPoint, const int arrConst[]) {
+    for (int i = 0; i < 6; i++) {
+        cout << "使用const修饰的数组名不能被修改 : " << arrConst[i] << endl;
+    }
+    for (int j = 0; j < 6; ++j) {
+        cout << "查询数组的值 : " << arrConst[j] << endl;
+    }
+}
+
+
+/**
+ *
+ * @param seasons 参数优先使用指针，因为值传递方法会复制一份值的副本  而指针直接操作原数据 避免了复制
+ */
+void testStringArray(array<string, num> *seasons) {
+
+    for (int i = 0; i < num; ++i) {
+        cout << season[i] << endl;
+    }
 }
